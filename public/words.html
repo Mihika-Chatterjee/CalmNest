@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood-Based Motivation</title>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    body {
+      background: #f5f2fb;
+      margin: 0;
+      padding: 0;
+    
+      color: #333;
+    }
+
+    header {
+      
+      color: darkgreen;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin: 0;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .mood-box {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .mood-box:hover {
+      transform: translateY(-5px);
+    }
+
+    .mood-box h2 {
+     color: darkgreen;
+      text-align: center;
+      font-size: 28px;
+    }
+    .mood-box h3{
+      font-size: 20px;
+      color: darkolivegreen;
+    }
+    .mood-box p {
+      text-align: justify;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar"></div>
+  <header data-aos="fade-down">
+    <h1>Motivation Based on Your Mood</h1>
+    <p>Find words that lift your spirit and calm your mind ✨</p>
+  </header>
+
+  <div class="container">
+    <div class="mood-box" data-aos="fade-up">
+      <h2> Happy</h2>
+      <h3><b><i>"Happiness is a warm cup of coffee and good company."<br><br>"Do more of what makes your soul shine."</i></b></h3>
+      <p>It’s such a beautiful thing to see genuine happiness shine through — that light in your eyes, that effortless smile, that calm joy that makes everything feel lighter. Moments like these remind us how precious simple joy can be — laughter shared, peace within, and the warmth of just being present. Hold onto this feeling; it’s the universe’s quiet way of saying you deserve every bit of this happiness.</p>
+    </div>
+
+    <div class="mood-box" data-aos="fade-up" data-aos-delay="100">
+      <h2> Sad</h2>
+      <h3><b><i>"It’s okay to not be okay. Some days, existing is enough."<br><br>"It hurts to let go, but sometimes it hurts more to hold on."</i></b></h3>
+      <p>It’s okay to feel sad. Emotions make you human. Give yourself permission to rest, reflect, and heal. Remember — sadness is temporary, and brighter days are always ahead. You’re stronger than you feel right now.</p>
+    </div>
+
+    <div class="mood-box" data-aos="fade-up" data-aos-delay="200">
+      <h2> Anxious</h2>
+      <h3><b><i>"Breathe. Let go. And remind yourself that this very moment is the only one you know you have for sure."<br><br>"Do not anticipate trouble, or worry about what may never happen. Keep in the sunlight."</i></b></h3>
+      <p>Breathe slowly and let yourself feel — it’s okay to be anxious; your feelings are valid. Imagine each worry as a cloud drifting gently across the sky, passing without staying. Focus on this moment, on the steady rhythm of your breath, and the small, quiet things you can hold onto. You are safe. You are stronger than you know. Even amidst uncertainty, your heart has the courage to move forward with calm, grace, and quiet strength.</p>
+    </div>
+
+    <div class="mood-box" data-aos="fade-up" data-aos-delay="300">
+      <h2> Angry</h2>
+      <h3><b><i>"For every minute you remain angry, you give up sixty seconds of peace of mind."<br><br>"Don't let the behaviour of others destroy your inner peace."</i></b></h3>
+      <p>I can see you’re really angry right now, and that’s okay — your feelings are valid. But please don’t let this moment steal your peace. You don’t have to fight everything alone or keep it all inside. Just take a deep breath, slow down for a bit, and let yourself feel without judgment. Sometimes quiet and calm are stronger than anger. You’re a good person — and you deserve to feel light, not heavy.</p>
+    </div>
+
+    <div class="mood-box" data-aos="fade-up" data-aos-delay="400">
+      <h2> Depressed</h2>
+      <h3><b><i>"You’ve survived 100% of your worst days — that’s proof you’re stronger than you think."<br><br>"The rain will stop, the clouds will part, and you’ll see light again — maybe not today, but someday soon."</i></b></h3>
+      <p>You are worth so much more than you realize. Even when life feels heavy and the days seem dark, your presence brings light in ways you might not even notice. You matter, you make a difference, and the world is a little better just because you’re in it. It’s okay to feel tired, to stumble, or to need a moment to breathe — it doesn’t make you weak, it makes you human. Remember, even small steps forward are brave, and every moment you keep going is proof of your strength. You are loved, you are valued, and your story is far from over.</p>
+    </div>
+  </div>
+<div id="footer"></div>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init({ duration: 800, once: true });
+     fetch("navbar.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("navbar").innerHTML = data;
+    });
+    fetch("footer.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+    });
+  </script>
+</body>
+</html>

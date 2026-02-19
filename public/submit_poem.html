@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit Poetry</title>
+<style>
+body {  background: linear-gradient(135deg,#ede7f6,#d1c4e9);   margin:0; }
+.form-container { background:#fff; padding:20px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.1); width:100%; max-width:500px; margin: 50px auto; }
+h2 { text-align:center; margin-bottom:20px; }
+input, textarea, button { width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; }
+button { background:#7b1fa2; color:#fff; border:none; cursor:pointer; }
+button:hover { background:#4a148c; }
+#message { text-align:center; font-weight:bold; margin-top:10px; }
+</style>
+</head>
+<body>
+<div id="navbar"></div>
+<div class="form-container">
+  <h2>Submit Your Poem</h2>
+  <form id="poemForm">
+    <input type="text" id="title" name="title" placeholder="Poem Title" required>
+    <textarea id="content" name="content" rows="6" placeholder="Write your poem here..." required></textarea>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="message"></div>
+</div>
+<div id="footer"></div>
+<script>
+async function checkLogin() {
+  const res = await fetch('/check-session');
+  const data = await res.json();
+  if(!data.loggedIn) {
+    document.getElementById('message').textContent = 'Please login to submit a poem!';
+    document.getElementById('poemForm').style.display = 'none';
+    return false;
+  }
+  return true;
+}
+
+document.getElementById('poemForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const loggedIn = await checkLogin();
+  if(!loggedIn) return;
+
+  const title = document.getElementById('title').value;
+  const content = document.getElementById('content').value;
+
+  try {
+    const res = await fetch('/submit-poem', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, content })
+    });
+
+    const data = await res.json();
+    document.getElementById('message').textContent = data.message || data.error;
+
+    if(res.ok && data.success) document.getElementById('poemForm').reset();
+  } catch(err) {
+    document.getElementById('message').textContent = 'Error submitting poem!';
+    console.error(err);
+  }
+});
+
+// Check login on page load
+checkLogin();
+fetch("navbar.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("navbar").innerHTML = data;
+    });
+
+  // Load Footer
+  fetch("footer.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+    });
+</script>
+
+</body>
+</html>

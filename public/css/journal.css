@@ -1,0 +1,124 @@
+body {
+      margin: 0;
+     
+      background: #f8f6fb; 
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #5a3e85; 
+    }
+
+    .prompt {
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .options {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    .options input[type="radio"] {
+      display: none;
+    }
+
+    .options label {
+      padding: 10px 20px;
+      border-radius: 25px;
+      border: 2px solid #c7a4d8;
+      background: #f1e6f8;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .options input[type="radio"]:checked + label {
+      background: #b78ee0;
+      color: #fff;
+      border-color: #b78ee0;
+    }
+
+    .journal-entry {
+      margin-top: 30px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      border: 2px solid #c7a4d8;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 15px;
+      resize: vertical;
+      background: #faf7fc;
+    }
+
+    button {
+      display: block;
+      margin: 15px auto;
+      padding: 12px 25px;
+      background: #b78ee0;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #9d6fce;
+    }
+
+    .prompts {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f4ecfa;
+      border-radius: 10px;
+    }
+
+    .gratitude {
+      margin: 40px auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      max-width: 900px;
+    }
+
+    .gratitude label {
+      font-weight: 500;
+      color: #5a3e85;
+    }
+
+    .gratitude input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0 16px;
+      border-radius: 10px;
+      border: 2px solid #c7a4d8;
+      background: #faf7fc;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #d8bfd8;
+      color: #333;
+      font-size: 14px;
+      margin-top: 40px;
+    }

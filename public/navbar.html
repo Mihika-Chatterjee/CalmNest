@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<div class="header">CALMNEST   
+        <img src="https://bcassetcdn.com/public/blog/wp-content/uploads/2022/09/16131810/prvd-logo-by-jahid-hasan-dribbble-1024x1024.png" width="70" height="65">
+
+    </div> 
+    <div class="menu">
+        <ul id="nav">
+            <li><div class="searchbox">
+                <input type="text" placeholder="Search">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
+                 <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg></div></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="wellness.html">Wellness</a></li>
+            <li><a href="featured.html">Featured</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="article.html">Articles</a></li>
+            <li><a href="community.html">Community Forum</a></li>
+            <li id="authItem">
+                <a href="login.html" class="login-btn">Login / Signup</a></li>
+
+    
+        </ul>
+    </div>
+    <script>
+        async function updateNavbar(){
+  const res = await fetch('/check-session');
+  const data = await res.json();
+  const authItem = document.querySelector('.login-btn');
+  if(!authItem) return;
+  if(data.loggedIn){
+    authItem.outerHTML = `<span>Hi, ${data.user.username}</span> <button id="logoutBtn">Logout</button>`;
+    document.getElementById('logoutBtn').addEventListener('click', async ()=>{
+      await fetch('/logout',{method:'POST'});
+      location.reload();
+    });
+  }
+}
+updateNavbar();
+
+    </script>
+    </body>
+</html>

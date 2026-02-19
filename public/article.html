@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mind Matters: Articles</title>
+  <link rel="stylesheet" type="text/css" href="css/article.css">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <header class="articles-header">
+    <h1>Mind Matters: Articles for Mental Well-being</h1>
+    <p>Explore articles, tips, and advice to support your mental health journey.</p>
+  </header>
+
+  <main class="articles-wrapper">
+    <div class="article-card">
+      <img src="https://flow-cms-prod.s3.amazonaws.com/images/11_causes_of_depression-_featured.width-800.format-webp.webp" alt="Catastrophic Thinking">
+      <h3>How to Avoid Catastrophic Thinking?</h3>
+      <p>What you can do when you believe everything is terrible.</p>
+      <a href="article1.html">Read More</a>
+    </div>
+
+    <div class="article-card">
+      <img src="https://img.freepik.com/free-vector/depression-concept-illustration_114360-3747.jpg" alt="Depression and Memory">
+      <h3>Depression and Memory Loss</h3>
+      <p>Research supports a connection between depressive symptoms and memory loss. Here's what to know...</p>
+      <a href="article2.html">Read More</a>
+    </div>
+
+    <div class="article-card">
+      <img src="https://static.scientificamerican.com/sciam/cache/file/99CDD31C-C229-401D-B81D83AE4DBC3122_source.jpg?w=1200" alt="Mindfulness">
+      <h3>Benefits of Mindfulness</h3>
+      <p>Mindfulness can help reduce stress, improve mental and physical health, and increase overall happiness in life...</p>
+      <a href="article3.html">Read More</a>
+    </div>
+
+    <div class="article-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiBV4Vv69U1tGlR-sY2p84ie9v_xrjpcNFTA&s" alt="Loneliness">
+      <h3>The Hurt of Loneliness and Social Isolation</h3>
+      <p>Loneliness and social isolation are associated with negative physical and mental health consequences across the lifespan...</p>
+      <a href="article4.html">Read More</a>
+    </div>
+    <div class="article-card">
+      <img src="https://www.shutterstock.com/image-vector/ok-not-be-motivational-posters-260nw-1902461530.jpg" alt="Loneliness">
+      <h3>It's okay to not be okay sometimes</h3>
+      <p>You don’t always have to be strong, and that’s perfectly fine.</p>
+      <a href="article5.html">Read More</a>
+    </div>
+      <div class="article-card">
+      <img src="https://assets.clevelandclinic.org/transform/LargeFeatureImage/7028ce35-97e9-4ea3-b0c4-42f262a96f5c/music-brain-moods-2154296218" alt="Loneliness">
+      <h3>How music affects your mood and mental health</h3>
+      <p>Why music is more than entertainment—it’s emotional medicine.</p>
+      <a href="article6.html">Read More</a>
+    </div>
+      <div class="article-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqxmme7NrhaeXV87lyhlzvs4ddVVvQ8TaBwA&s" alt="Loneliness">
+      <h3>Overcoming fear of failures: Practical steps</h3>
+      <p>Because failure is just another word for learning.</p>
+      <a href="article5.html">Read More</a>
+    </div>
+      <div class="article-card">
+      <img src="https://media.istockphoto.com/id/1155129715/vector/happy-young-woman-walking-outside-around-the-city-with-backpack-vector-character.jpg?s=612x612&w=0&k=20&c=hjPpYp7NQ3cJaKKA03S8Rr7fr1P19ng0KinBYhTH7xg=" alt="Loneliness">
+      <h3>How nature walk boosts your mood insatantly</h3>
+      <p>Reconnect with the outdoors: how spending time among trees and fresh air can reduce stress and enhance mental clarity.</p>
+      <a href="article5.html">Read More</a>
+    </div>
+      <div class="article-card">
+      <img src="https://www.weliahealth.org/wp-content/uploads/2023/06/blog-journaling-1200x628-1.jpg" alt="Loneliness">
+      <h3>How journaling helps you understand your emotions</h3>
+      <p>Explore how daily journaling can help you process emotions, track progress, and nurture a healthier mindset.</p>
+      <a href="article5.html">Read More</a>
+    </div>
+
+    
+  </main>
+
+  <footer>
+    <p>&copy; 2025 CalmNest. All rights reserved.</p>
+  </footer>
+
+  <script>
+    fetch("navbar.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("navbar").innerHTML = data;
+      });
+      fetch("footer.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+    });
+  </script>
+</body>
+</html>

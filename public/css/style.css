@@ -1,0 +1,429 @@
+body{
+  margin: 0;
+  overflow-x: hidden;
+}
+ .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: 700; 
+    height: 60px;
+    gap: 20px;
+    padding: 0 20px;
+    background: linear-gradient(135deg, #c7b3e0, #f0e6fa); 
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+    border-bottom: none; 
+ }
+ .header img{
+     height: 50px;
+    display: block;
+  }
+ #nav{
+     margin: 0;
+     padding: 8px;
+     display: flex;
+     justify-content: center;
+     gap:30px;
+     }
+  #nav li{
+      display: flex;
+       justify-content: center;
+    }
+    #nav a{
+            text-decoration: none;
+            color:black;
+            font-size: 20px;
+            font-weight: 300;
+        }
+        .menu {
+    height: 50px; 
+    width: 100%;
+    background: linear-gradient(135deg, #6a3f99,#c7b3e0); 
+    display: flex;
+    justify-content: space-between;
+    padding-top: 5px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
+    border-bottom: none; 
+     all: unset; 
+
+        }
+       input[type="text"] {
+  padding: 0px;
+  border-radius: 0px;
+  border: 1px solid #d1b3ff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none; /* remove default focus box */
+  width: auto;
+  
+
+}
+
+
+
+.menu a {
+    color: #e6e6fa; 
+    font-weight: 600;
+    margin-right: 20px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+#navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  background: linear-gradient(135deg, #6a3f99,#c7b3e0);
+  color: white;
+  flex-wrap: wrap;   /* allows search box and links to wrap on mobile */
+  text-align: left;  /* prevents inheritance from page-content */
+
+  
+  
+  
+}
+/* Navbar auth items */
+.login-btn,
+#logoutBtn,
+.nav-user {
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg,#9575cd,#7e57c2);
+  border: none;
+  border-radius: 10px;
+  padding: 5px 12px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.login-btn:hover,
+#logoutBtn:hover,
+.nav-user:hover {
+  background: linear-gradient(135deg,#7e57c2,#512da8);
+}
+
+/* Profile text */
+.nav-user {
+  margin-right: 10px;
+  background: none;
+  color: #fff;
+}
+
+.menu a:hover {
+    color: #d1b3ff; 
+}
+
+        .searchbox input{
+            float: left;
+            padding: 1px;
+            border: none;
+            flex: 1;
+        }
+        .searchbox{
+            display: flex;
+            align-items: center;
+            border: 3px solid black;
+            border-radius: 1px;
+            align-items: center;
+            width: 230px;
+            background: white;
+            padding: 1px;
+            height: 20px;
+            
+        }
+        .searchbox svg{
+            width: 20px;
+            margin-left: -10px;
+            height: 22px;
+            cursor: pointer;
+        }
+        .cardcontainer{
+          gap: 50px;
+          height: 300px;
+          padding: 20px;
+          
+        }
+        .card-section{
+             display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        }
+       .card1{
+       background: url("https://media.istockphoto.com/id/1305814523/vector/emotions-scale-mood-concept-excellent-good-and-normal-bad-and-awful-tiny-people-leave.jpg?s=612x612&w=0&k=20&c=xsldk3yqFgb7pvhXKteWEnibhg5CeqCwwecFGMpnafE=");
+        padding: 30px;
+        background-size: cover;
+        height: 200px;
+        width: 300px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+         box-shadow: 0 0 25px rgba(111, 32, 139, 0.6);
+        
+       }
+       .card1 h2{
+        font-size: 32px;
+       }
+      
+       .card1:hover{
+        transform: translate(5px,-5px);
+       }
+       .card1 a{
+        display: flex;
+        justify-content: center;
+        background: #e6e6fa;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 22px;
+        padding: 10px;
+        color: darkslategray;
+        
+       }
+       .card1 a:hover{
+        background-color: ivory;
+       }
+       .card2{
+        background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuQn9W-NbMLoV27HwTl211HFdEuTtU-muylw&s");
+        padding: 30px;
+        text-align: center;
+        height: 200px;
+        width: 300px;
+          display: flex;
+        justify-content: center;
+        align-items: flex-end;
+           box-shadow: 0 0 25px rgba(111, 32, 139, 0.6);
+       }
+       .card3{
+         background: url("https://media.istockphoto.com/id/638697068/vector/simple-vector-flower.jpg?s=612x612&w=0&k=20&c=PARTYtTKa8EGswDFqE4vwQoTFcQXPOduFEHn8cKu5Lw=");
+        padding: 30px;
+        text-align: center;
+        height: 200px;
+        width: 300px;
+          display: flex;
+        justify-content: center;
+        align-items: flex-end;
+           box-shadow: 0 0 25px rgba(111, 32, 139, 0.6);
+        background-size: cover;
+        
+       }
+        .card3 a{
+        display: flex;
+        justify-content: center;
+        background: #e6e6fa;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 22px;
+        padding: 10px;
+        color: darkslategray;
+        }
+       .card2 h2{
+        font-size: 32px;
+       }
+       
+       .card2:hover{
+        transform: translate(5px,-5px);
+       }
+       .card2 a{
+        display: flex;
+        justify-content: center;
+        background:#e6e6fa;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 22px;
+        padding: 10px;
+        color: darkslategray;
+       }
+       .card2 a:hover{
+        background-color:royalblue;
+       }
+       .cs-container{
+        padding: 10px;
+        height: 300px;
+        border-bottom: 2 px solid lightblue;
+      }
+      .cs-section{
+        display: flex;
+       text-align: center;
+       justify-content: center;
+        padding: 30px;
+        gap: 40px;
+
+      }
+      
+      .text1{
+        font-size: 24px;
+        color: darkslategray;
+      }
+      .text2{
+        font-size: 24px;
+        color: darkslategray;
+      }
+      .cardsection{
+        display: flex;
+        justify-content: center;
+        gap: 150px;
+        flex-wrap: wrap;
+        padding: 20px;
+        height: 200px;
+        background: linear-gradient(to right,#d1b3ff,#e6e6fa);
+      }
+      .toolcard1 h3{
+        position: absolute;
+        font-size: 28px;
+        color: #6a3f99;
+        display: flex;
+        justify-content: flex-start;
+      }
+       .toolcard2 h3{
+        position: absolute;
+        font-size: 28px;
+        color: #6a3f99;
+        display: flex;
+        justify-content: flex-start;
+      }
+      .toolcard p{
+      font-size: 23px;
+      }
+      .toolcard1{
+        position: relative;
+        padding: 20px;
+        border-radius: 20px;
+        text-align: center;
+        cursor: pointer;
+        box-shadow: 0 0 25px rgba(111, 32, 139, 0.6);
+        background: url("https://img.freepik.com/premium-vector/breathing-exercise-concept-illustration_114360-8960.jpg");
+        width: 300px;
+        height: 150px;
+        
+  }
+   .toolcard2{
+        padding: 20px;
+        border-radius: 20px;
+        text-align: center;
+        cursor: pointer;
+        box-shadow: 0 0 25px rgba(111, 32, 139, 0.6);
+        background: url("https://media.istockphoto.com/id/1615070586/vector/pebbles-with-flying-butterfly-in-one-continuous-line-drawing-zen-balance-and-meditation-soul.jpg?s=612x612&w=0&k=20&c=5vI0DT7cGmoWUQYFufmwqqHxqv59RGAM7JKpRQpPYEM=");
+        width: 300px;
+        height: 150px;
+        
+  }
+
+     .featured{
+      padding: 30px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+     }
+     .featured h1{
+      font-size: 31px;
+     }
+  
+     .content{
+      gap: 50px;
+      padding: 30px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+     }
+    .article{
+      padding: 5px;
+      border-radius: 14px ;
+      text-align: center;
+      flex: 1;
+      
+    }
+     .article img{
+      height: 220px;
+      width: 60%;
+     background-size: cover;
+      padding: 10px;
+      box-shadow: 0 0 25px rgba(111, 32, 139, 0.6);
+        
+     }
+     .article p{
+      font-size: 24px;
+      font-weight: bold;
+      color: darkslategrey;
+     }
+     .article a{
+      font-size: 22px;
+      color: #6a3f99;
+      text-decoration: none;
+     }
+    .article a:hover{
+      color: #d1b3ff;
+    }
+   .community {
+  padding: 10px;
+  text-align: center;
+  background: linear-gradient(to right, #f0e6fa, #e6e6fa); 
+  border-top: 2px solid #d1b3ff; 
+  border-bottom: 2px solid #d1b3ff;
+  height: 200px;
+}
+
+.community h1 {
+  font-size: 34px;
+  color: #6a3f99;
+  margin-bottom: 15px;
+}
+
+.community p {
+  font-size: 20px;
+  color: darkslategrey;
+  margin-bottom: 25px;
+}
+
+.community button {
+  padding: 15px 35px;
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  background: linear-gradient(135deg, #6a3f99, #b38cd9);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.community button:hover {
+  background: linear-gradient(135deg, #8c5fb2, #d1b3ff);
+  transform: translateY(-3px);
+}
+
+.body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-left: 20px;
+  padding-top: 20px;
+  height: 400px;
+  font-size: 32px;
+  background: url("../background.png");
+  background-size: cover;
+  background-position: center;
+  border-bottom: 1px solid lightblue;
+  }
+  .login-btn {
+  font-weight: bold;
+  color: #667eea;
+}
+
+.login-btn:hover {
+  color: #5a54e8;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  background: #d8bfd8; 
+  color: #333;
+  font-size: 14px;
+  margin-top: 30px;
+}

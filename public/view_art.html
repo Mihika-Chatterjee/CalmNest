@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Art Gallery</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ede7f6, #d1c4e9);
+    color: #4a148c;
+    margin: 0;
+    padding: 0;
+  }
+  #gallery {
+    max-width: 1000px;
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 0 20px;
+  }
+  .art-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  .art-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .art-card h3 {
+    margin: 10px 0 5px;
+    color: #6a1b9a;
+  }
+  .art-card small {
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+  }
+</style>
+</head>
+<body>
+
+<div id="navbar"></div>
+<h1 style="text-align:center; margin-top:30px;">Art Gallery</h1>
+<div id="gallery">Loading art...</div>
+<div id="footer"></div>
+
+<script>
+// Load Navbar
+fetch("navbar.html")
+  .then(res => res.text())
+  .then(data => { document.getElementById("navbar").innerHTML = data; });
+
+// Load Footer
+fetch("footer.html")
+  .then(res => res.text())
+  .then(data => { document.getElementById("footer").innerHTML = data; });
+
+// Load Art Gallery
+async function loadArt() {
+  const gallery = document.getElementById('gallery');
+  try {
+    const res = await fetch('/art'); // backend route to fetch art
+    const data = await res.json();
+
+    if(!data.success){
+      gallery.textContent = data.error || 'Error loading art';
+      return;
+    }
+    if(data.art.length === 0){
+      gallery.textContent = 'No art submitted yet!';
+      return;
+    }
+
+    gallery.innerHTML = '';
+    data.art.forEach(a => {
+      const card = document.createElement('div');
+      card.className = 'art-card';
+      card.innerHTML = `
+        <img src="uploads/${a.filename}" alt="${a.title}">
+        <h3>${a.title}</h3>
+        <small>By: ${a.username} | ${new Date(a.created_at).toLocaleString()}</small>
+      `;
+      gallery.appendChild(card);
+    });
+
+  } catch(err){
+    gallery.textContent = 'Error fetching art!';
+    console.error(err);
+  }
+}
+
+loadArt();
+</script>
+
+</body>
+</html>

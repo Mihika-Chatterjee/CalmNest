@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mental Health Journal</title>
+  <link rel="stylesheet" type="text/css" href="css/journal.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <div class="container" data-aos="fade-up" data-aos-delay="200">
+    <h1>Mental Health Journal</h1>
+
+    <div class="prompt">
+      <h2>How are you feeling today?</h2>
+      <div class="options">
+        <input type="radio" id="happy" name="emotion" value="Happy">
+        <label for="happy">Happy</label>
+
+        <input type="radio" id="neutral" name="emotion" value="Neutral">
+        <label for="neutral">Neutral</label>
+
+        <input type="radio" id="anxious" name="emotion" value="Anxious">
+        <label for="anxious">Anxious</label>
+
+        <input type="radio" id="angry" name="emotion" value="Angry">
+        <label for="angry">Angry</label>
+
+        <input type="radio" id="sad" name="emotion" value="Sad">
+        <label for="sad">Sad</label>
+
+        <input type="radio" id="depressed" name="emotion" value="Depressed">
+        <label for="depressed">Depressed</label>
+      </div>
+    </div>
+
+
+    <div class="journal-entry">
+      <h2>Your Journal Entry:</h2>
+      <textarea placeholder="Write your thoughts here..."></textarea>
+      <button id="submitJournalBtn">Submit</button>
+
+      <div class="prompts">
+        <p>Confused about what to write? Try one of these prompts:</p>
+        <ol>
+          <li>Write about a place (real or imaginary) where you feel safe.</li>
+          <li>Did anything make you smile or laugh today?</li>
+          <li>What's something small you often overlook but appreciate?</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="gratitude">
+    <h2>Gratitude Section</h2>
+    <p>List three things you're grateful for today:</p>
+    <label>Gratitude 1: </label>
+    <input type="text" id="gratitude1">
+    <label>Gratitude 2: </label>
+    <input type="text" id="gratitude2">
+    <label>Gratitude 3: </label>
+    <input type="text" id="gratitude3">
+    <button id="saveGratitudeBtn">Save Gratitude</button>
+    <div id="gratitudeHistory"></div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 CalmNest. All rights reserved.</p>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true });
+
+    fetch("navbar.html").then(r => r.text()).then(d => document.getElementById("navbar").innerHTML = d);
+
+  
+    const username = sessionStorage.getItem('username') || 'guest';
+    const journalKey = `journal_${username}`;
+    const gratitudeKey = `gratitude_${username}`;
+
+    const textarea = document.querySelector('textarea');
+    const submitBtn = document.getElementById('submitJournalBtn');
+    const entriesDiv = document.createElement('div');
+    entriesDiv.id = 'journal-entries';
+    entriesDiv.style.marginTop = '20px';
+    document.querySelector('.journal-entry').appendChild(entriesDiv);
+
+    
+    function loadEntries() {
+      const journalHistory = JSON.parse(localStorage.getItem(journalKey)) || [];
+      if (journalHistory.length > 0) {
+        entriesDiv.innerHTML = journalHistory.map(entry => `
+          <div style="background:white;padding:15px;margin:10px 0;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+            <div style="font-size:12px;color:#6a1b9a;margin-bottom:5px;"><b>${entry.date}</b> | Mood: ${entry.mood}</div>
+            <div>${entry.text}</div>
+          </div>
+        `).join('');
+      } else {
+        entriesDiv.innerHTML = "<p>No journal entries yet.</p>";
+      }
+    }
+
+    submitBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const text = textarea.value.trim();
+      const moodInput = document.querySelector('input[name="emotion"]:checked');
+      if (!text) return alert('Please write something before submitting.');
+      if (!moodInput) return alert('Please select your mood.');
+
+      const today = new Date().toLocaleString();
+      const entry = { date: today, mood: moodInput.value, text };
+
+      let journalHistory = JSON.parse(localStorage.getItem(journalKey)) || [];
+      journalHistory.push(entry);
+      localStorage.setItem(journalKey, JSON.stringify(journalHistory));
+
+      textarea.value = '';
+      document.querySelector('input[name="emotion"]:checked').checked = false;
+      loadEntries();
+    });
+
+    loadEntries();
+
+    
+    const saveGratBtn = document.getElementById('saveGratitudeBtn');
+    const gratHistoryDiv = document.getElementById('gratitudeHistory');
+
+    function loadGratitude() {
+      const gratHistory = JSON.parse(localStorage.getItem(gratitudeKey)) || [];
+      if (gratHistory.length > 0) {
+        gratHistoryDiv.innerHTML = gratHistory.map(entry => `
+          <div style="background:#f3e5f5;padding:10px;margin:5px 0;border-radius:8px;">
+            <b>${entry.date}</b>: ${entry.items.join(', ')}
+          </div>
+        `).join('');
+      } else {
+        gratHistoryDiv.innerHTML = "<p>No gratitude entries yet.</p>";
+      }
+    }
+
+    saveGratBtn.addEventListener('click', () => {
+      const g1 = document.getElementById('gratitude1').value.trim();
+      const g2 = document.getElementById('gratitude2').value.trim();
+      const g3 = document.getElementById('gratitude3').value.trim();
+
+      if (!g1 && !g2 && !g3) return alert('Please write at least one gratitude.');
+
+      const today = new Date().toLocaleString();
+      const entry = { date: today, items: [g1, g2, g3].filter(Boolean) };
+
+      let gratHistory = JSON.parse(localStorage.getItem(gratitudeKey)) || [];
+      gratHistory.push(entry);
+      localStorage.setItem(gratitudeKey, JSON.stringify(gratHistory));
+
+      document.getElementById('gratitude1').value = '';
+      document.getElementById('gratitude2').value = '';
+      document.getElementById('gratitude3').value = '';
+      loadGratitude();
+    });
+
+    loadGratitude();
+  </script>
+</body>
+</html>

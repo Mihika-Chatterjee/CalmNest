@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login / Signup - CalmNest</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin:0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg,#ede7f6,#d1c4e9);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+  }
+  .auth-container {
+    background: rgba(255,255,255,0.95);
+    padding: 40px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(81,45,168,0.15);
+    width:100%;
+    max-width:400px;
+  }
+  h1 {
+    text-align:center;
+    margin-bottom:20px;
+    color:#6a1b9a;
+  }
+  .toggle-btns {
+    display:flex;
+    justify-content:center;
+    margin-bottom:20px;
+    gap:10px;
+  }
+  .toggle-btns button {
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#9575cd;
+    color:white;
+    font-weight:600;
+  }
+  .toggle-btns button.active {
+    background:#6a1b9a;
+  }
+  form {
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+  }
+  input {
+    padding:12px;
+    border:2px solid #ce93d8;
+    border-radius:10px;
+    font-size:1rem;
+  }
+  input:focus { outline:none; border-color:#7e57c2; }
+  button.submit-btn {
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background: linear-gradient(135deg,#9575cd,#7e57c2);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+  }
+  button.submit-btn:hover { background: linear-gradient(135deg,#7e57c2,#512da8); }
+  .message { text-align:center; color:red; font-size:0.9rem; }
+</style>
+</head>
+<body>
+
+<div class="auth-container">
+  <h1 id="formTitle">Login</h1>
+  <div class="toggle-btns">
+    <button id="loginBtn" class="active">Login</button>
+    <button id="signupBtn">Signup</button>
+  </div>
+
+  <form id="authForm">
+    <input type="text" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <input type="text" id="username" placeholder="Username (for signup)" style="display:none;">
+    <button type="submit" class="submit-btn">Login</button>
+    <div class="message" id="message"></div>
+  </form>
+</div>
+
+<script>
+const loginBtn = document.getElementById('loginBtn');
+const signupBtn = document.getElementById('signupBtn');
+const formTitle = document.getElementById('formTitle');
+const usernameInput = document.getElementById('username');
+const submitBtn = document.querySelector('.submit-btn');
+const authForm = document.getElementById('authForm');
+const messageDiv = document.getElementById('message');
+
+let isLogin = true;
+
+// Toggle login/signup
+loginBtn.addEventListener('click', ()=>{
+  isLogin = true;
+  formTitle.textContent = "Login";
+  usernameInput.style.display = "none";
+  submitBtn.textContent = "Login";
+  loginBtn.classList.add('active');
+  signupBtn.classList.remove('active');
+  messageDiv.textContent = '';
+});
+signupBtn.addEventListener('click', ()=>{
+  isLogin = false;
+  formTitle.textContent = "Signup";
+  usernameInput.style.display = "block";
+  submitBtn.textContent = "Signup";
+  signupBtn.classList.add('active');
+  loginBtn.classList.remove('active');
+  messageDiv.textContent = '';
+});
+
+// Handle form submission
+authForm.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  messageDiv.textContent = '';
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const username = document.getElementById('username').value.trim();
+
+  if(isLogin){
+    const res = await fetch('/login',{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,password})});
+    const data = await res.json();
+    if(data.success){
+      window.location.href = 'index.html';
+    } else {
+      messageDiv.textContent = data.error || "Login failed";
+    }
+  } else {
+    if(!username){ messageDiv.textContent = "Enter a username"; return; }
+    const res = await fetch('/signup',{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username,email,password})});
+    const data = await res.json();
+    if(data.success){
+      // automatically log in after signup
+      const loginRes = await fetch('/login',{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,password})});
+      const loginData = await loginRes.json();
+      if(loginData.success) window.location.href = 'index.html';
+    } else {
+      messageDiv.textContent = data.error || "Signup failed";
+    }
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CalmNest Community Forum 🌿</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sage: #A7E3C5;
+      --lav: #EADFF8;
+      --sky: #DCEFFE;
+      --beige: #F3EDE6;
+      --bg: #F8FBFA;
+      --text: #1E293B;
+      --muted: #64748B;
+      --radius: 14px;
+      --shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+  
+
+   
+    .btn {
+      background: var(--sage);
+      border: none;
+      padding: 10px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background 0.3s;
+    }
+    .btn:hover { background: #9adbb8; }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 16px;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .category {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+    .category:hover {
+      transform: translateY(-3px);
+    }
+    .category h3 {
+      margin: 0;
+    }
+    .category p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 8px 0 0;
+    }
+
+    .thread-list {
+      background: white;
+      padding: 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .thread {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+    .thread:last-child { border: none; }
+    .thread h4 { margin: 0 0 4px; }
+    .thread small { color: var(--muted); }
+
+    .new-thread {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .forum-page input, textarea {
+      padding: 8px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      width: 100%;
+      font-family: inherit;
+    }
+
+    .sidebar {
+      background: var(--lav);
+      padding: 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .sidebar h4 { margin-top: 0; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* Mood widget */
+    .mood-widget {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .mood-widget button {
+      font-size: 1.5rem;
+      margin: 0 6px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .mood-widget button:hover { transform: scale(1.2); }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      header { flex-wrap: wrap; }
+      nav a { margin: 8px; }
+    }
+  </style>
+</head>
+<body>
+ 
+<div id="navbar"></div>
+  
+  <main class="container forum-page">
+    <h2>Forum Categories</h2>
+    <div class="categories" id="categories"></div>
+
+    <h2>Threads</h2>
+    <div class="thread-list" id="threadList"></div>
+
+    <div class="new-thread">
+      <h3>Start a New Discussion</h3>
+      <select id="threadCategory" required>
+  <option value="Managing Anxiety"> Managing Anxiety</option>
+  <option value="Better Sleep"> Better Sleep</option>
+  <option value="Self-Care & Mindfulness"> Self-Care & Mindfulness</option>
+  <option value="Share Your Story"> Share Your Story</option>
+  <option value="Coping Strategies"> Coping Strategies</option>
+  <option value="Gratitude Wall"> Gratitude Wall</option>
+  <option value="Feedback & Suggestions"> Feedback & Suggestions</option>
+  <option value="General">General discussion</option>
+</select>
+
+      <input class="input" id="threadTitle" placeholder="Thread title..." />
+      <textarea id="threadContent" placeholder="Share your thoughts..."></textarea>
+      <button class="btn" id="postThread">Post</button>
+    </div>
+
+    <div class="mood-widget">
+      <h3>How are you feeling today?</h3>
+      <button>😊</button><button>😐</button><button>😔</button><button>😇</button><button>💪</button>
+      <p id="moodResult"></p>
+    </div>
+
+    <aside class="sidebar">
+      <h4>Community Guidelines</h4>
+      <ul>
+        <li>Be kind and respectful.</li>
+        <li>No medical advice or diagnoses.</li>
+        <li>Protect your privacy.</li>
+        <li>Use trigger warnings when needed.</li>
+        <li>Seek professional help if required.</li>
+      </ul>
+      <p><a href="#">Helpline Resources</a></p>
+    </aside>
+  </main>
+
+ <div id="footer"></div>
+
+  <script>
+// 1️⃣ Load Navbar
+fetch("navbar.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("navbar").innerHTML = data;
+    updateNavbar();
+  });
+
+// 2️⃣ Load Footer
+fetch("footer.html")
+  .then(res => res.text())
+  .then(data => { document.getElementById("footer").innerHTML = data; });
+
+// 3️⃣ Forum categories (static)
+const categories = [
+  { name: "Managing Anxiety", desc: "Share and learn ways to cope with anxiety." },
+  { name: "Better Sleep", desc: "Discuss habits and tips for restful sleep." },
+  { name: "Self-Care & Mindfulness", desc: "Daily practices for emotional wellbeing." },
+  { name: "Share Your Story", desc: "Your experiences can help others feel less alone." },
+  { name: "Coping Strategies", desc: "Gentle advice for stressful moments." },
+  { name: "Gratitude Wall", desc: "Share something you’re grateful for today." },
+  { name: "Feedback & Suggestions", desc: "Help us improve the CalmNest space." },
+  { name: "General Discussions", desc: "Talk about anything on your mind or daily life." }
+
+];
+
+const categoryContainer = document.getElementById("categories");
+let threads = []; // all threads fetched from backend
+let filteredCategory = null; // currently selected category
+
+// 🌿 Render category boxes
+categories.forEach(cat => {
+  const div = document.createElement("div");
+  div.className = "category";
+  div.innerHTML = `<h3>${cat.name}</h3><p>${cat.desc}</p>`;
+  div.addEventListener("click", async () => {
+    filteredCategory = cat.name;
+    await loadThreads(); // reload from backend by category
+  });
+  categoryContainer.appendChild(div);
+});
+
+// 🌿 Load threads from backend (all or filtered)
+async function loadThreads() {
+  const threadList = document.getElementById("threadList");
+  threadList.innerHTML = "Loading...";
+
+  try {
+    // If a category is selected, add it as a query parameter
+    const endpoint = filteredCategory
+      ? `/threads?category=${encodeURIComponent(filteredCategory)}`
+      : `/threads`;
+
+    const res = await fetch(endpoint);
+    const data = await res.json();
+
+    if (!data.success) {
+      threadList.innerHTML = data.error || "Error loading threads";
+      return;
+    }
+
+    threads = data.threads;
+    renderThreads();
+  } catch (err) {
+    threadList.innerHTML = "Error loading threads!";
+    console.error(err);
+  }
+}
+
+// 🌿 Render threads (based on filter)
+function renderThreads() {
+  const threadList = document.getElementById("threadList");
+
+  if (threads.length === 0) {
+    threadList.innerHTML = "<p class='muted'>No discussions yet. Start one below 🌿</p>";
+    return;
+  }
+
+  threadList.innerHTML = "";
+  threads.forEach(t => {
+    const div = document.createElement("div");
+    div.className = "thread";
+    div.innerHTML = `
+      <h4>${t.title}</h4>
+      <p>${t.content}</p>
+      <small>${t.category} • By ${t.username} | ${new Date(t.created_at).toLocaleString()}</small>
+    `;
+    threadList.appendChild(div);
+  });
+}
+
+// 🌿 Initial load
+loadThreads();
+
+// 🌿 Post a new thread
+document.getElementById("postThread").addEventListener("click", async () => {
+  const title = document.getElementById("threadTitle").value.trim();
+  const content = document.getElementById("threadContent").value.trim();
+  const category = document.getElementById("threadCategory").value;
+
+  if (!title || !content) return alert("Please write both title and content.");
+
+  // Check login
+  try {
+    const res = await fetch("/check-session");
+    const session = await res.json();
+    if (!session.loggedIn) {
+      alert("Please login first to post a discussion!");
+      return;
+    }
+  } catch (err) {
+    alert("Error checking login status");
+    return;
+  }
+
+  // Submit thread to backend
+  try {
+    const postRes = await fetch("/submit-thread", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, content, category })
+    });
+    const postData = await postRes.json();
+
+    if (postData.success) {
+      document.getElementById("threadTitle").value = "";
+      document.getElementById("threadContent").value = "";
+      filteredCategory = category; // stay in same category view
+      await loadThreads();
+    } else {
+      alert(postData.error || "Error posting thread!");
+    }
+  } catch (err) {
+    alert("Error submitting thread!");
+    console.error(err);
+  }
+});
+
+// 🌿 Mood widget
+document.querySelectorAll(".mood-widget button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const mood = btn.textContent;
+    document.getElementById("moodResult").textContent = `Your mood today: ${mood}`;
+    localStorage.setItem("mood", mood);
+  });
+});
+const savedMood = localStorage.getItem("mood");
+if (savedMood) document.getElementById("moodResult").textContent = `Your mood today: ${savedMood}`;
+
+// 🌿 Update Navbar with login info
+async function updateNavbar() {
+  const authItem = document.getElementById("authItem");
+  if (!authItem) return;
+
+  try {
+    const res = await fetch("/check-session");
+    const data = await res.json();
+    if (data.loggedIn) {
+      authItem.innerHTML = `
+        <span>Hi, ${data.user.username}</span>
+        <button id="logoutBtn">Logout</button>
+      `;
+      document.getElementById("logoutBtn").addEventListener("click", async () => {
+        await fetch("/logout", { method: "POST" });
+        location.reload();
+      });
+    }
+  } catch (err) {
+    console.error("Error updating navbar", err);
+  }
+}
+</script>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Challenges</title>
+<style>
+  body {
+   
+    background: #ede7f6; /* soft lavender */
+    margin: 0;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px;
+    background: #f3e5f5; /* light lavender card background */
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+
+  h1 {
+    text-align: center;
+    color: #6a1b9a; /* deep purple accent */
+    margin-bottom: 40px;
+    font-size: 2.5rem;
+  }
+
+  .challenge-card {
+    background: linear-gradient(135deg, #9575cd,#b39ddb); /* purple gradient */
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    transition: transform 0.3s;
+    height: 350px;
+  }
+
+  .challenge-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .challenge-card h2 {
+    margin-top: 0;
+    color: #fff;
+    font-size: 1.8rem;
+  }
+
+  .challenge-card p {
+    color: #f3e5f5;
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  .challenge-card img {
+    width: 30%;
+    border-radius: 10px;
+    margin-top: 20px;
+    padding: 20px;
+    height: 160px;
+  }
+
+</style>
+</head>
+<body>
+<div id="navbar"></div>
+<div class="container">
+  <h1>Weekly Challenge</h1>
+
+  <div class="challenge-card">
+    <h2>Express Your Emotions Through Art</h2>
+    <p>This week’s challenge is all about expressing your feelings visually. Choose a mood or emotion and create an artwork that represents it. You can use drawing, painting, or digital tools. Share your creation with the community to inspire others!</p>
+    <img src="https://t3.ftcdn.net/jpg/07/03/02/14/360_F_703021495_SJP6mr793gn03A09yT1G9g0DE00ATY64.jpg" alt="Art Challenge">
+  </div>
+
+  <div class="challenge-card">
+    <h2>Poetry Challenge: Nature</h2>
+    <p>Write a poem inspired by nature. Focus on imagery, emotions, and creativity. Whether it’s a haiku, free verse, or rhyming poem, let your words paint a picture of the natural world.</p>
+    <img src="https://thumbs.dreamstime.com/b/old-quill-pen-paper-blank-sheet-vintage-inkwell-wooden-desk-office-retro-style-conceptual-background-history-187331664.jpg" alt="Poetry Challenge">
+  </div>
+
+</div>
+<div id="footer"></div>
+<script>
+    fetch("navbar.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("navbar").innerHTML = data;
+    });
+    fetch("footer.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+    });
+</script>
+</body>
+</html>

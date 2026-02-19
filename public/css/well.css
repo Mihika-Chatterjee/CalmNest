@@ -1,0 +1,110 @@
+body {
+  margin: 0;
+ 
+  color: #3b2f63;
+}
+
+.full-section {
+  position: relative;
+  width: 90%s;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 50px 0;
+  padding: 5px;
+}
+
+.section-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
+}
+
+#quotes .section-bg img{
+  filter: brightness(0.95);
+}
+#meditation .section-bg img{
+  filter: brightness(1.2);
+  filter: opacity(0.4);
+ 
+}
+
+.section-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.section-content {
+  position: relative;
+  text-align: center;
+  max-width: 800px;
+  padding: 20px;
+}
+
+.section-content h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: #9d6bff;
+}
+
+.section-content p {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: aliceblue;
+}
+
+.section-content ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+  color: aliceblue;
+}
+
+.section-content ul li {
+  font-size: 1.1rem;
+  margin: 5px 0;
+}
+
+.section-content .btn {
+  background: #9d6bff;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 10px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.3s ease;
+  font-size: 18px;
+}
+
+.section-content .btn:hover {
+  background: #7a49e6;
+}
+
+button {
+  background: #9d6bff;
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+  font-size: 18px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button:hover {
+  background: #7a49e6;
+}
+
+
+#books .section-bg{
+  filter: opacity(0.9);
+}

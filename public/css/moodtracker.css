@@ -1,0 +1,101 @@
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #f1ecfa, #f3e8ff);
+  color: #3b2f63;
+  text-align: center;
+  
+}
+
+h1 {
+  margin-top: 50px;
+  font-size: 2.6rem;
+  color: #4a2e8a;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+}
+
+p {
+  color: #4a3b8a;
+  margin-top: 10px;
+}
+
+.mood-options {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 30px 0;
+  height: 100px;
+}
+
+.mood {
+  font-size: 24px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 18px;
+  padding: 18px 25px;
+  box-shadow: 5px;;
+  transition: all 0.3s ease;
+}
+
+.mood:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(80, 0, 150, 0.25);
+}
+
+.mood.selected {
+  background: #d9c3ff;
+  box-shadow: 0 0 15px rgba(110, 20, 180, 0.3);
+  transform: scale(0.5);
+}
+
+button {
+  background: #9d6bff;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #7a49e6;
+}
+
+#result {
+  margin-top: 30px;
+  font-size: 1.2rem;
+  color: #4a2e8a;
+}
+#recommendations {
+  font-size: 1.3rem; /* increase size */
+  margin-top: 15px;
+  line-height: 1.4;
+  color: #333; /* optional: make it more readable */
+}
+
+#recommendations h3 {
+  font-size: 1.5rem; /* slightly larger for the heading */
+  margin-bottom: 8px;
+}
+ #chartContainer {
+    width: 300px;  /* desired width */
+    height: 200px; /* desired height */
+    margin: 30px auto;
+  }
+  #moodChart {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+#footer {
+  margin-top: auto;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .mood {
+    font-size: 2.2rem;
+    padding: 15px;
+  }
+}

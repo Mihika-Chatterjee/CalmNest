@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit Art</title>
+<style>
+  /* Reset and body */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ede7f6, #d1c4e9);
+    color: #4a148c;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Navbar placeholder */
+  #navbar { width: 100%; }
+
+  /* Main container */
+  .main-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+  }
+
+  /* Form container */
+  .form-container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #6a1b9a;
+  }
+
+  input, button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    background: #7b1fa2;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+
+  button:hover { background: #4a148c; }
+
+  #message {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  /* Footer */
+  #footer { width: 100%; margin-top: auto; }
+</style>
+</head>
+<body>
+
+<div id="navbar"></div>
+
+<div class="main-container">
+  <div class="form-container">
+    <h2>Submit Your Art</h2>
+    <form id="artForm" enctype="multipart/form-data">
+      <input type="text" id="artTitle" name="artTitle" placeholder="Art Title" required>
+      <input type="file" id="artFile" name="artFile" accept="image/*" required>
+      <button type="submit">Submit</button>
+    </form>
+    <div id="message"></div>
+  </div>
+</div>
+
+<div id="footer"></div>
+
+<script>
+  // Load Navbar
+  fetch("navbar.html")
+    .then(res => res.text())
+    .then(data => { document.getElementById("navbar").innerHTML = data; });
+
+  // Load Footer
+  fetch("footer.html")
+    .then(res => res.text())
+    .then(data => { document.getElementById("footer").innerHTML = data; });
+
+  // Submit Art Form
+  document.getElementById('artForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const message = document.getElementById('message');
+
+    // Check login
+    const sessionRes = await fetch('/check-session');
+    const sessionData = await sessionRes.json();
+    if(!sessionData.loggedIn){
+      message.textContent = 'Please login to submit art!';
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('artTitle', document.getElementById('artTitle').value);
+    formData.append('artFile', document.getElementById('artFile').files[0]);
+
+    try {
+      const res = await fetch('/submit-art', { method: 'POST', body: formData });
+      const data = await res.json();
+      message.textContent = data.success ? 'Art submitted successfully!' : data.error;
+      if(data.success) document.getElementById('artForm').reset();
+    } catch(err){
+      message.textContent = 'Error submitting art!';
+      console.error(err);
+    }
+  });
+</script>
+
+</body>
+</html>

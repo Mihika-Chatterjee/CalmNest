@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wellness </title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/well.css">
+  
+
+</head>
+<body>
+  <div id="navbar"></div>
+
+  
+  <section id="tips" class="full-section" data-aos="fade-up">
+    <div class="section-bg" style="background: linear-gradient(to right,#d9ccff,#f3e8ff);">
+      <img src="https://t4.ftcdn.net/jpg/08/66/01/61/360_F_866016116_qKoESiKd3D3YgJXeztFgWTsBPymaOecE.jpg">
+    </div>
+    <div class="section-content">
+      <h2> Daily Wellness Tip</h2>
+      <p id="tip">Click below to get a tip for today!</p>
+      <button onclick="showTip()">Get a Tip</button>
+    </div>
+  </section>
+
+ 
+  <section id="quotes" class="full-section" data-aos="fade-up">
+    <div class="section-bg" style="background: linear-gradient(to right,#c2b3ff,#e6d6ff);">
+      <img src="https://png.pngtree.com/thumb_back/fh260/background/20220216/pngtree-inspirational-quotes-of-purple-watercolor-image_936282.jpg">
+    </div>
+    <div class="section-content">
+      <h2> Motivational Quote</h2>
+      <p id="quote">Click below to get inspired!</p>
+      <button onclick="showQuote()">Get a Quote</button>
+    </div>
+  </section>
+
+  
+  <section id="meditation" class="full-section" data-aos="fade-up">
+    <div class="section-bg" style="background: linear-gradient(to right,#e3d3ff,#f3e8ff);">
+      <img src="https://img.freepik.com/free-vector/monochromatic-background-watercolor-with-mandalas_23-2148865944.jpg?semt=ais_hybrid&w=740&q=80">
+    </div>
+    </div>
+    <div class="section-content">
+      <h2> Guided Breathing Exercise</h2>
+      <p id="meditationText">Press start to begin a simple 1-minute breathing session.</p>
+      <button onclick="breathing.html">Start</button>
+    </div>
+  </section>
+
+  <!-- Book Recommendations 
+  <section id="books" class="full-section" data-aos="fade-up">
+    <div class="section-bg">
+      <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1400&q=80" alt="Books">
+    </div>
+    <div class="section-content">
+      <h2>Book Recommendations</h2>
+      <p>Explore these books to relax your mind, improve your mood, or spark creativity.</p>
+      <ul>
+        <li>"The Alchemist" by Paulo Coelho</li>
+        <li>"Atomic Habits" by James Clear</li>
+        <li>"Man's Search for Meaning" by Viktor E. Frankl</li>
+        <li>"The Power of Now" by Eckhart Tolle</li>
+        <li>"Meditations" by Marcus Aurelius</li>
+      </ul>
+      <a href="books.html" class="btn">View More Books</a>
+    </div>
+  </section>-->
+
+  <div id="footer"></div>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true });
+
+    // Wellness Tips
+    const tips = [
+      "Drink a glass of water first thing in the morning ",
+      "Take a 5-minute stretch break ",
+      "Write down 3 things you’re grateful for ",
+      "Go outside for fresh air ",
+      "Do 10 minutes of light exercise "
+    ];
+    function showTip(){
+      document.getElementById("tip").innerText = tips[Math.floor(Math.random()*tips.length)];
+    }
+
+    // Motivational Quotes
+    const quotes = [
+      "Believe you can and you're halfway there.",
+      "Your mind is a powerful thing. Fill it with positivity.",
+      "Small steps every day lead to big results.",
+      "Happiness is not out there, it's in you.",
+      "You don’t have to control your thoughts. You just have to stop letting them control you."
+    ];
+    function showQuote(){
+      document.getElementById("quote").innerText = quotes[Math.floor(Math.random()*quotes.length)];
+    }
+
+    // Guided Meditation
+    const meditationSteps = ["Breathe In ", "Hold ", "Breathe Out ", "Relax "];
+    let stepIndex = 0;
+    let meditationInterval;
+    function startMeditation(){
+      clearInterval(meditationInterval);
+      stepIndex = 0;
+      document.getElementById("meditationText").innerText = "Get ready...";
+      meditationInterval = setInterval(()=>{
+        document.getElementById("meditationText").innerText = meditationSteps[stepIndex];
+        stepIndex++;
+        if(stepIndex >= meditationSteps.length){ clearInterval(meditationInterval); }
+      }, 3000);
+    }
+
+    // Navbar & Footer
+    fetch("navbar.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("navbar").innerHTML = d;
+    updateNavbar(); // <-- call it here
+  });
+
+async function updateNavbar(){
+  const res = await fetch('/check-session');
+  const data = await res.json();
+  const authItem = document.getElementById('authItem'); // use ID
+  if(!authItem) return;
+
+  if(data.loggedIn){
+    authItem.innerHTML = `
+      <span class="nav-user">Hi, ${data.user.username}</span>
+      <button id="logoutBtn">Logout</button>
+    `;
+    document.getElementById('logoutBtn').addEventListener('click', async ()=>{
+      await fetch('/logout',{method:'POST'});
+      location.reload();
+    });
+  } else {
+    authItem.innerHTML = `<a href="login.html" class="login-btn">Login / Signup</a>`;
+  }
+}
+
+// Call after navbar is loaded
+updateNavbar();
+
+    fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+  </script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/moodtracker.css">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <h1 data-aos="fade-down">How are you feeling today?</h1>
+  <p data-aos="fade-up">Choose the symbol that matches how you feel today!</p>
+
+  
+    <div class="mood-options" data-aos="zoom-in">
+      <div class="mood" data-mood="Happy" data-aos="fade-up" data-aos-delay="100">🌞<br>Happy</div>
+      <div class="mood" data-mood="Neutral" data-aos="fade-up" data-aos-delay="200">⛅<br>Neutral</div>
+      <div class="mood" data-mood="Anxious" data-aos="fade-up" data-aos-delay="300">🌥️<br>Anxious</div>
+      <div class="mood" data-mood="Angry" data-aos="fade-up" data-aos-delay="400">🌩️<br>Angry</div>
+      <div class="mood" data-mood="Sad" data-aos="fade-up" data-aos-delay="500">🌧️<br>Sad</div>
+      <div class="mood" data-mood="Depressed" data-aos="fade-up" data-aos-delay="600">🌑<br>Depressed</div>
+    </div>
+
+    <input type="hidden" id="selectedMood">
+    <button data-aos="fade-up" id="saveMoodBtn">Save Mood</button>
+  </form>
+
+  <div id="result" data-aos="fade-up">No mood selected yet</div>
+  <div id="recommendations"></div>
+
+  <section id="history" data-aos="fade-up">
+    <h2>Your Mood History </h2>
+    <canvas id="moodChart"></canvas>
+  </section>
+
+  <div id="footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+ <script>
+AOS.init({ duration: 800, once: true });
+
+const moods = document.querySelectorAll('.mood');
+const selectedMoodInput = document.getElementById('selectedMood');
+const resultDiv = document.getElementById('result');
+const recommendationDiv = document.getElementById('recommendations');
+const saveBtn = document.getElementById('saveMoodBtn');
+const noteInput = document.getElementById('moodNote') || { value: "" }; // optional
+let chart;
+
+// ----- Mood scale -----
+const moodScale = { "Depressed":0,"Sad":1,"Angry":2,"Anxious":3,"Neutral":4,"Happy":5 };
+
+// ----- Mood selection -----
+moods.forEach(m => {
+  m.addEventListener('click', () => {
+    moods.forEach(x => x.classList.remove('selected'));
+    m.classList.add('selected');
+    selectedMoodInput.value = m.getAttribute('data-mood');
+    resultDiv.innerHTML = `You are feeling <b>${selectedMoodInput.value}</b> today`;
+  });
+});
+
+// ----- Save mood + AI recommendation -----
+saveBtn.addEventListener('click', async () => {
+  if (!await checkLogin()) return;
+
+  const mood = selectedMoodInput.value;
+  const note = noteInput.value.trim();
+  if (!mood) { alert("Select a mood"); return; }
+
+  const today = new Date().toLocaleDateString();
+  const moodEntry = { date: today, mood, value: moodScale[mood] };
+
+  // --- SAVE TO LOCALSTORAGE ---
+  let moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
+  moodHistory.push(moodEntry);
+  localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
+
+  // --- UPDATE CHART IMMEDIATELY ---
+  updateChart();
+
+  // --- FETCH AI RECOMMENDATIONS ---
+  recommendationDiv.innerHTML = "Loading recommendation...";
+  try {
+    const res = await fetch('/recommend', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mood, note })
+    });
+    if (!res.ok) throw new Error("Request failed");
+
+    const data = await res.json();
+    const randomRec = data.recommendations[Math.floor(Math.random() * data.recommendations.length)];
+    recommendationDiv.innerHTML = `<h3>Recommended for you:</h3><p>${randomRec}</p>`;
+  } catch (err) {
+    console.error("AI recommendation error:", err);
+    recommendationDiv.innerHTML = "Error fetching AI recommendation.";
+  }
+});
+
+// ----- Update chart -----
+function updateChart() {
+  const moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
+  const labels = moodHistory.map(e => e.date);
+  const values = moodHistory.map(e => e.value);
+
+  const ctx = document.getElementById('moodChart').getContext('2d');
+  if (chart) chart.destroy();
+
+  chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Mood Level',
+        data: values,
+        borderColor: '#4a90e2',
+        backgroundColor: 'rgba(74,144,226,0.2)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          min: 0,
+          max: 5,
+          ticks: {
+            stepSize: 1,
+            callback: v => ["Depressed","Sad","Angry","Anxious","Neutral","Happy"][v] || ""
+          },
+          title: { display: true, text: "Mood" }
+        },
+        x: { title: { display: true, text: "Date" } }
+      }
+    }
+  });
+}
+
+// ----- Initial chart load -----
+updateChart();
+
+// ----- Navbar & Footer -----
+fetch("navbar.html").then(r => r.text()).then(d => document.getElementById("navbar").innerHTML = d);
+fetch("footer.html").then(r => r.text()).then(d => document.getElementById("footer").innerHTML = d);
+
+// ----- Login check -----
+async function checkLogin() {
+  try {
+    const res = await fetch('/check-session');
+    const data = await res.json();
+    if (!data.loggedIn) {
+      alert("Please login first!");
+      window.location.href = 'login.html';
+      return false;
+    }
+    return true;
+  } catch {
+    alert("Error checking login");
+    return false;
+  }
+}
+</script>

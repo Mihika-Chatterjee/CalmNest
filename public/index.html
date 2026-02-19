@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalmNest</title>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <div id="navbar"></div>
+    <div class="body">
+        <p  data-aos="fade-up"><b><i>You're not alone - this is your safe place<br>to breathe,feel and heal.
+        <br><br>We're here for you, on the days that you feel heavy.</i></b></p>
+    </div>
+    <div class="cs-container">
+        <div class="cs-section" >
+            <div class="text1" data-aos="zoom-in">
+                <h2>How are you feeling today?</h2>
+                <p><b>Take a moment to notice your emotions.<br>
+Tracking your mood helps you understand yourself better.</b></p>
+            </div>
+        <div class="card1" data-aos="zoom-in" data-aos-delay="100">
+      
+      
+      <a href="/moodtracker">Track your mood</a>
+    </div>
+    </div>
+    </div>
+     
+    
+    <div class="cardcontainer">
+        <div class="card-section">
+    <div class="card2" data-aos="zoom-in">
+      
+      <a href="journal.html">Start writing...</a>
+    </div>
+     <div class="text2" data-aos="zoom-in" data-aos-delay="100"><h2>Let your thoughts flow freely.</h2>
+<p><b>Writing is a safe space to release,<br>
+to heal, and to find clarity within.</b></p></div>
+    </div>
+    </div>
+    <div class="cs-container">
+        <div class="cs-section" >
+            <div class="text1" data-aos="zoom-in">
+                <h2>Your Thoughts, Our Words</h2>
+<p><b>We put your emotions into words.<br>
+Let our words reflect what your heart feels but can’t always express.</b></p>
+            </div>
+        <div class="card3" data-aos="zoom-in" data-aos-delay="100">
+      
+      
+      <a href="words.html">Hear us out</a>
+    </div>
+    </div>
+    </div><br><br>
+    <div class="cardsection">
+      <div class="toolcard1" data-aos="zoom-in" onclick="window.location.href='breathing.html'" data-aos-delay="100">
+        <h3>Breathing Exercises</h3>
+      </div>
+      <div class="toolcard2" data-aos="zoom-in"onclick="window.location.href='meditation.html'" data-aos-delay="100">
+        <h3>Guided Meditation</h3>
+        
+      </div>
+    </div>
+   <div class="featured">
+    <h1>Featured Content</h1>
+    <div class="content">
+        <div class="article">
+          <img src="https://flow-cms-prod.s3.amazonaws.com/images/11_causes_of_depression-_featured.width-800.format-webp.webp" >
+            <p>How to avoid catatstrophic thinking?</p>
+            <a href=article1.html>People trapped in catatstrophic thought patterns are convinced everything is awful and won't improve, which creates a constant sense of helplessness,anxiety, and stress...</a>
+        </div>
+        
+        <div class="article">
+          <img src="https://img.freepik.com/free-vector/depression-concept-illustration_114360-3747.jpg?t=st=1657678284~exp=1657678884~hmac=b8b1d71ca0a8eb2e4ff5bf31d6a98624112f1a2254b0f39e92254ed12d7875b2">
+        <p>Depression and Memory loss</p>
+        <a href="article2.html">Research supports a connection between depressive symptoms and memory loss. Here's what to know...</a>
+    </div>
+   </div>
+   </div>
+   <div class="community" data-aos="fade-up">
+  <h1>Community Forum</h1>
+  <p><b>You're not alone – connect with others who understand, share your journey, and find support together.</b></p>
+  <button onclick="window.location.href='community.html'">Connect with Others</button>
+</div>
+
+   
+<div id="footer"></div>
+
+<script>
+    AOS.init({
+      duration: 1200,
+      once: false,  
+      mirror: true   
+    });
+      fetch("navbar.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("navbar").innerHTML = data;
+    });
+    async function updateNavbar(){
+  const res = await fetch('/check-session');
+  const data = await res.json();
+  const authItem = document.getElementById('authItem');
+  if(!authItem) return;
+
+  if(data.loggedIn){
+    authItem.innerHTML = `
+      <span>Hi, ${data.user.username}</span>
+      <button id="logoutBtn">Logout</button>
+    `;
+    document.getElementById('logoutBtn').addEventListener('click', async ()=>{
+      await fetch('/logout',{method:'POST'});
+      location.reload();
+    });
+  }
+}
+updateNavbar();
+    fetch("footer.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+    });
+  </script>
+ 
+</body>
+</html>

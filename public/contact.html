@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us - Good Mental Health</title>
+  <link rel="stylesheet" type="text/css" href="css/contact.css">
+</head>
+<body>
+  <div id="navbar"></div>
+  <div class="container" role="main">
+    <h1>Contact Us</h1>
+    <p class="description">
+      We're here to listen. If you have questions or want to share your story about mental health, please reach out.
+    </p>
+
+    <section class="about-calmnest">
+      <h2>About CalmNest</h2>
+      <p>
+        CalmNest is a supportive space dedicated to promote good mental health. 
+        We provide resources, community forum, articles, and self reflection to support mental well-being through a variety of thoughtful features. CalmNest is a web based application which help individuals navigate life’s challenges with care and compassion.
+      </p>
+    </section>
+
+    <form id="contactForm" novalidate>
+      <label for="name">Full Name *</label>
+      <input type="text" id="name" name="name" placeholder="Your full name" required />
+      <div id="nameError" class="error" aria-live="polite"></div>
+
+      <label for="email">Email Address *</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required />
+      <div id="emailError" class="error" aria-live="polite"></div>
+
+      <label for="message">Your Message *</label>
+      <textarea id="message" name="message" placeholder="How can we help you?" required></textarea>
+      <div id="messageError" class="error" aria-live="polite"></div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="consent" name="consent" required />
+        <label for="consent">I agree to the <a href="#" target="_blank" rel="noopener">privacy policy</a> *</label>
+      </div>
+      <div id="consentError" class="error" aria-live="polite"></div>
+
+      <button type="submit">Send Message</button>
+    </form>
+    <div id="successMessage" class="success-message" role="alert" style="display:none;">
+      Thank you for reaching out. We'll get back to you soon.
+    </div>
+  </div>
+ <div id="footer"></div>
+  <script>
+      fetch("navbar.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("navbar").innerHTML = data;
+    });
+    const form = document.getElementById('contactForm');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const messageInput = document.getElementById('message');
+    const consentCheckbox = document.getElementById('consent');
+
+    const nameError = document.getElementById('nameError');
+    const emailError = document.getElementById('emailError');
+    const messageError = document.getElementById('messageError');
+    const consentError = document.getElementById('consentError');
+    const successMessage = document.getElementById('successMessage');
+
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    form.addEventListener('submit', function (e){
+      e.preventDefault();
+
+      nameError.textContent = '';
+      emailError.textContent = '';
+      messageError.textContent = '';
+      consentError.textContent = '';
+      successMessage.style.display = 'none';
+
+      let valid = true;
+
+      if (nameInput.value.trim() === '') {
+        nameError.textContent = 'Please enter your full name.';
+        valid = false;
+      }
+
+      if (emailInput.value.trim() === '') {
+        emailError.textContent = 'Please enter your email address.';
+        valid = false;
+      } else if (!validateEmail(emailInput.value.trim())) {
+        emailError.textContent = 'Please enter a valid email address.';
+        valid = false;
+      }
+
+      if (messageInput.value.trim() === '') {
+        messageError.textContent = 'Please enter your message.';
+        valid = false;
+      }
+
+      if (!consentCheckbox.checked) {
+        consentError.textContent = 'You must agree to the privacy policy.';
+        valid = false;
+      }
+    });
+    async function updateNavbar(){
+  const res = await fetch('/check-session');
+  const data = await res.json();
+  const authItem = document.getElementById('authItem');
+  if(!authItem) return;
+
+  if(data.loggedIn){
+    authItem.innerHTML = `
+      <span>Hi, ${data.user.username}</span>
+      <button id="logoutBtn">Logout</button>
+    `;
+    document.getElementById('logoutBtn').addEventListener('click', async ()=>{
+      await fetch('/logout',{method:'POST'});
+      location.reload();
+    });
+  }
+}
+updateNavbar();
+     fetch("footer.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+    });
+    </script>
+    </body>
+    </html>

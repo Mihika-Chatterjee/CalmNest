@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meditation Types</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      
+      background: linear-gradient(135deg, #ede7f6, #d1c4e9);
+      margin: 0;
+      padding: 0;
+      color: #4a148c;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(81, 45, 168, 0.15);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h1 {
+      text-align: center;
+      color: #6a1b9a;
+      font-size: 2.4rem;
+      margin-bottom: 30px;
+    }
+
+    p.intro {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #7e57c2;
+      margin-bottom: 40px;
+    }
+
+    .meditation-type {
+      background: linear-gradient(135deg, #b39ddb, #9575cd);
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      color: #fff;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .meditation-type:hover {
+      transform: translateY(-5px);
+    }
+
+    .meditation-type h2 {
+      margin-top: 0;
+      color: #fff;
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+
+    .meditation-type p {
+      line-height: 1.6;
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    footer {
+      text-align: center;
+      color: #6a1b9a;
+      font-size: 0.95rem;
+      margin-top: 40px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 30px 20px;
+        padding: 30px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+    <div id="navbar"></div>
+  <div class="container">
+    <h1> Types of Meditation</h1>
+    <p class="intro">Meditation helps calm the mind, reduce stress, and improve focus.  
+    Here are some popular techniques you can try.</p>
+
+    <div class="meditation-type">
+      <h2>1. Mindfulness Meditation</h2>
+      <p>Focus on the present moment without judgment.  
+      Sit comfortably, breathe naturally, and observe your thoughts as they come and go.  
+      If your mind wanders, gently bring your focus back to your breath.</p>
+    </div>
+
+    <div class="meditation-type">
+      <h2>2. Guided Visualization</h2>
+      <p>Use imagination to create calming mental images — like a peaceful beach or forest.  
+      This type helps reduce anxiety and promotes relaxation through mental focus and imagery.</p>
+    </div>
+
+    <div class="meditation-type">
+      <h2>3. Loving-Kindness Meditation (Metta)</h2>
+      <p>Focus on sending love, kindness, and positive thoughts toward yourself and others.  
+      Silently repeat phrases like “May I be happy. May I be healthy.”  
+      Gradually extend those wishes to others around you.</p>
+    </div>
+
+    <div class="meditation-type">
+      <h2>4. Mantra Meditation</h2>
+      <p>Repeat a word, phrase, or sound (like “Om”) to focus your mind and remove distractions.  
+      The rhythmic repetition helps deepen concentration and bring mental peace.</p>
+    </div>
+
+    <div class="meditation-type">
+      <h2>5. Body Scan Meditation</h2>
+      <p>Bring awareness to each part of your body, from head to toe.  
+      Notice areas of tension and consciously relax them.  
+      It’s great for stress relief and improving mind-body awareness.</p>
+    </div>
+
+    <div class="meditation-type">
+      <h2>6. Breathing Meditation</h2>
+      <p>Focus entirely on your breath.  
+      Inhale deeply through your nose, hold briefly, then exhale slowly.  
+      It’s one of the simplest and most effective ways to clear your mind.</p>
+    </div>
+
+   
+  </div>
+  <div id="footer"></div>
+  <script>
+    fetch("navbar.html").then(r=>r.text()).then(d=>document.getElementById("navbar").innerHTML=d);
+    async function updateNavbar(){
+  const res = await fetch('/check-session');
+  const data = await res.json();
+  const authItem = document.getElementById('authItem');
+  if(!authItem) return;
+
+  if(data.loggedIn){
+    authItem.innerHTML = `
+      <span>Hi, ${data.user.username}</span>
+      <button id="logoutBtn">Logout</button>
+    `;
+    document.getElementById('logoutBtn').addEventListener('click', async ()=>{
+      await fetch('/logout',{method:'POST'});
+      location.reload();
+    });
+  }
+}
+updateNavbar();
+    fetch("footer.html").then(r=>r.text()).then(d=>document.getElementById("footer").innerHTML=d);
+  </script>
+</body>
+</html>

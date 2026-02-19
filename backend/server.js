@@ -20,7 +20,8 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // Session setup
 app.use(session({
-  secret: 'my_super_secret_demo_key', // replace with a strong random string
+  secret: process.env.SESSION_SECRET
+, // replace with a strong random string
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 24 * 60 * 60 * 1000 } // 1 day
